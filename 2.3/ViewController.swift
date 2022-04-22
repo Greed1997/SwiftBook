@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: - IB Outlets
     @IBOutlet var userNameTF: UITextField!
     @IBOutlet var passwordTF: UITextField!
     
@@ -16,33 +17,24 @@ class ViewController: UIViewController {
     @IBOutlet var forgotUserName: UIButton!
     @IBOutlet var forgotPassword: UIButton!
     
+    // MARK: - Private Properties
     private let userName: String = "User"
     private let password: String = "Password"
     
-    
+    // MARK: - Override Methods
     override func viewDidLoad() {
-        super.viewDidLoad()
+//        super.viewDidLoad()
+        userNameTF.layer.masksToBounds = true
+        passwordTF.layer.masksToBounds = true
         userNameTF.layer.cornerRadius = 10
         passwordTF.layer.cornerRadius = 10
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
-            welcomeVC.helloUser = "Hello, \(userName)"
+            welcomeVC.helloUser = "Hello, \(userName) \n 👋"
     }
-    // Метод для скрытия клавиатуры тапом по экрану
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super .touchesBegan(touches, with: event)
-//    }
-    func shouldPerformSegue() -> Bool {
-        if let username = userNameTF.text,
-           let password = passwordTF.text,
-           self.userName == username,
-           self.password == password {
-            return true
-        } else {
-            return false
-        }
-    }
+    
+    // MARK: - IB Actions
     @IBAction func alerts(_ sender: UIButton) {
         switch sender {
         case forgotUserName:
@@ -83,6 +75,23 @@ class ViewController: UIViewController {
                         animated: true,
                         completion: nil)
             }
+        }
+    }
+    @IBAction func unwind(for segue: UIStoryboardSegue) {
+        guard let _ = segue.source as? WelcomeViewController else { return }
+        userNameTF.text = userName
+        passwordTF.text = ""
+    }
+    
+    // MARK: - Private Methods
+    private func shouldPerformSegue() -> Bool {
+        if let username = userNameTF.text,
+           let password = passwordTF.text,
+           self.userName == username,
+           self.password == password {
+            return true
+        } else {
+            return false
         }
     }
 }

@@ -17,7 +17,8 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         helloTF.text = helloUser
     }
-    @IBAction func logOut() {
-        dismiss(animated: true)
-    }
+    
+//    @IBAction func logOut() {
+//        dismiss(animated: true)
+//    }
 }
